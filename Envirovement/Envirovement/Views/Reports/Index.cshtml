@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="ka">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to an external CSS file -->
+    <style>
+        /* Add any additional inline styles here */
+
+        /* Container styles */
+        #FirstPage {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: white; /* White background for better readability */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        /* Label styles */
+        .labelstyle {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #555; /* Dark grey color for labels */
+        }
+
+        /* Input styles */
+        input[type="date"],
+        select,
+        input[type="button"] {
+            display: block;
+            width: 100%; /* Full-width inputs */
+            padding: 8px;
+            margin-bottom: 16px;
+            border-radius: 4px; /* Rounded corners */
+            border: 1px solid #ccc;
+        }
+
+        /* Button styles */
+        input[type="button"] {
+            background-color: #00796b; /* Dark green background */
+            color: white; /* White text */
+            cursor: pointer;
+            text-align: center; /* Center text */
+        }
+
+            input[type="button"]:hover {
+                background-color: #004d40; /* Darker green on hover */
+            }
+
+        /* Report sections */
+        #ShowReport,
+        #ExcelEnvirovementRep {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="FirstPage">
+        <!-- Environment Report Section -->
+        <div id="EnviromentRep">
+            <label class="labelstyle">პერიოდი</label>
+            <input type="date" id="startDateTime" name="startDateTime">
+            <input type="date" id="endDateTime" name="endDateTime">
+            <label class="labelstyle">რეპორტის ტიპი</label>
+            <select class="period" id="period">
+                <option value="1">30 წუთიანი საშვალო</option>
+                <option value="2">გადაჭარბები საშვალო 30 წუთში</option>
+            </select>
+            <input type="button" class="save" value="ნახვა ვებზე" onclick="GetEnvirovementRep()" />
+        </div>
+
+        <!-- Report display section -->
+        <div id="ShowReport">
+            <!-- Place to display reports -->
+        </div>
+
+        <!-- Extra spacing for clarity -->
+        <br><br>
+
+        <!-- Excel Export Section -->
+        <div id="ExcelEnvirovementRep">
+            <label class="labelstyle">პერიოდი</label>
+            <input type="date" id="startDateTimeExcel" name="startDateTimeExcel">
+            <input type="date" id="endDateTimeExcel" name="endDateTimeExcel">
+            <label class="labelstyle">რეპორტის ტიპი</label>
+            <select class="period" id="periodExcel">
+                <option value="1">30 წუთიანი საშვალო</option>
+                <option value="2">ყოველ 1 წუთში</option>
+                <option value="3">გადაჭარბები საშვალო 30 წუთში</option>
+                <option value="4">გადაჭარბები 1 წუთში</option>
+            </select>
+            <input type="button" class="save" value="ექსპორტი" onclick="GetEnvirovementRepExcelExport()" />
+        </div>
+
+        <!-- Hidden URLs for reports -->
+        <p id="EnviromentReports" style="display: none;">@Url.Action("GetEnvirovementRep", "reports")</p>
+        <p id="ExcelReports" style="display: none;">@Url.Action("GetEnvirovementRepExcelExport", "reports")</p>
+    </div>
+
+    <!-- Link to the reports.js script -->
+    <script src="@Url.Content("~/js/reports.js")"></script>
+</body>
+
+</html>

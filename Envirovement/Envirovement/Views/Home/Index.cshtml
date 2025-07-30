@@ -1,0 +1,239 @@
+﻿@model List<EnvirovementSentReport>
+
+<!DOCTYPE html>
+<html>
+<!DOCTYPE html>
+<html lang="ka">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="60">
+    <title>Monitoring System</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+    <style>
+        /* Global Styles */
+        main.container {
+            display: flex;
+            flex-direction: row; /* Arrange sections side by side */
+            justify-content: center; /* Center-align the sections within the container */
+            align-items: flex-start; /* Align sections at the top */
+            gap: 10px; /* Adjust this value to control the space between the sections */
+            margin: 5px auto;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px; /* Space below each table */
+            border: 1px solid #ccc; /* Light grey border */
+        }
+
+        td, th {
+            padding: 12px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #e0f7fa; /* Light cyan header */
+            font-weight: bold;
+            color: #00796b;
+        }
+
+        td {
+            text-align: left;
+            color: #333; /* Dark text */
+        }
+
+        /* Section Styling */
+        section.table-section {
+            margin: 0; /* Remove default margins */
+            padding: 0;
+        }
+
+        /* Header Styles */
+        h5 {
+            margin: 0;
+            padding-bottom: 5px; /* Adjust to control space between the header and the table */
+            font-size: 18px;
+        }
+
+        /* Responsive layout using Flexbox */
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Connection status container styling */
+        .connection-status {
+            display: flex; /* Align items horizontally */
+            gap: 10px; /* Space between notifications */
+            justify-content: center; /* Center align the notifications */
+            margin-top: 10px; /* Add a bit of margin at the top */
+        }
+
+        /* Button styles */
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #00796b; /* Dark green */
+            color: white;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #004d40; /* Darker green */
+            }
+
+        /* Notification styles */
+        .notification {
+            padding: 5px 10px; /* Smaller padding */
+            font-size: 12px; /* Smaller font size */
+            border-radius: 4px;
+            color: white;
+            flex-shrink: 0; /* Prevent notifications from shrinking too much */
+        }
+
+            .notification.green {
+                background-color: #4caf50; /* Green for successful connection */
+            }
+
+            .notification.red {
+                background-color: #f44336; /* Red for failed connection */
+            }
+
+
+        /* Notification styles */
+        .notification {
+            padding: 5px 10px; /* Smaller padding */
+            font-size: 12px; /* Smaller font size */
+            border-radius: 4px;
+            color: white;
+            flex-shrink: 0; /* Prevent notifications from shrinking too much */
+        }
+
+            .notification.green {
+                background-color: #4caf50; /* Green for successful connection */
+            }
+
+            .notification.red {
+                background-color: #f44336; /* Red for failed connection */
+            }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+
+
+        <!-- Script to update the current date and time every second -->
+        <!-- Script to request permission for notifications -->
+        <!-- Connection status display -->
+        <div class="connection-status">
+            @if (Model[0].CheckConnection)
+            {
+                <div class="notification green">ინტერნეტთან კავშირი არის წარმატებული</div>
+            }
+            else
+            {
+                <div class="notification red">ინტერნეტთან კავშირი ვერ ხერხდება</div>
+            }
+            @if (Model[0].CheckConnection)
+            {
+                <div class="notification green">გაფრქვევის კომპიუტერთან კავშირი არის წარმატებული </div>
+            }
+            else
+            {
+                <div class="notification red">გაფრქვევის კომპიუტერთან კავშირი ვერ ხერხდება </div>
+            }
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Live Results Section -->
+        <section class="table-section">
+            <h5>Live შედეგი</h5>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ტურბინა</th>
+                        <th>NOx</th>
+                        <th>CO</th>
+                        <th>თარიღი</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.TurbinaName</td>
+                            @if (item.NoxValue > 25)
+                            {
+                                <td style="color:red; font-weight:bold">@item.NoxValue</td>
+                            }
+                            else
+                            {
+                                <td>@item.NoxValue</td>
+                            }
+                            @if (item.CoValue > 20)
+                            {
+                                <td style="color:red;font-weight:bold">@item.CoValue</td>
+                            }
+                            else
+                            {
+                                <td>@item.CoValue</td>
+                            }
+                            <td class="no-wrap">@item.RecordDate.ToString("dd-MM-yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Results in 30 Minutes Section -->
+        <section class="table-section">
+            <h5>შედეგი 30 წუთში</h5>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ტურბინა</th>
+                        <th>NOx</th>
+                        <th>CO</th>
+                        <th>თარიღი</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model[0].thertyminutemodel)
+                    {
+                        <tr>
+                            <td>@item.TurbinaName</td>
+                            @if (item.NoxValue > 25)
+                            {
+                                <td style="color:red;font-weight:bold">@item.NoxValue</td>
+                            }
+                            else
+                            {
+                                <td>@item.NoxValue</td>
+                            }
+                            @if (item.CoValue > 20)
+                            {
+                                <td style="color:red;font-weight:bold">@item.CoValue</td>
+                            }
+                            else
+                            {
+                                <td>@item.CoValue</td>
+                            }
+                            <td class="no-wrap">@item.RecordDate.ToString("dd-MM-yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
+
+
+

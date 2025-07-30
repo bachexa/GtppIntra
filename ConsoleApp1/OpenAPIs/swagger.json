@@ -1,0 +1,418 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AirGzd Service v2",
+    "description": "Only for authorized personal",
+    "contact": {
+      "name": "IT Department",
+      "email": "developers@mepa.gov.ge"
+    },
+    "version": "v2"
+  },
+  "servers": [
+    {
+      "url": "https://externalapi.mepa.gov.ge/des/airservice"
+    }
+  ],
+  "paths": {
+    "/api/v2/AirGzd/AddData/AddData": {
+      "post": {
+        "tags": [
+          "AirGzd"
+        ],
+        "parameters": [
+          {
+            "name": "CompanyGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "BuildingGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "MonitoringPointGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "SensorGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Data",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "DataDateTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/AirGzd/AddBulkData/AddBulkData": {
+      "post": {
+        "tags": [
+          "AirGzd"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ForResultAddBulkData"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ForResultAddBulkData"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ForResultAddBulkData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/AirGzd/CheckGuidsGenerateXML/CheckGuidsGenerateXML": {
+      "post": {
+        "tags": [
+          "AirGzd"
+        ],
+        "parameters": [
+          {
+            "name": "CompanyGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "BuildingGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "MonitoringPointGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "SensorGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v2/AirGzd/GetDataByDate/GetDataByDate": {
+      "get": {
+        "tags": [
+          "AirGzd"
+        ],
+        "parameters": [
+          {
+            "name": "CompanyGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "BuildingGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "MonitoringPointGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "SensorGUID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "DateTime",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetDataByDateV2Result"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetDataByDateV2Result"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetDataByDateV2Result"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ForResult": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean"
+          },
+          "guid": {
+            "type": "string",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForResultAddBulkData": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean"
+          },
+          "guid": {
+            "type": "string",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetDataByDateV2Result": {
+        "type": "object",
+        "properties": {
+          "wsLogID": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "companyGUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "buildingGUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "monitoringPointGUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sensorGUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "addGUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "statusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Request": {
+        "type": "object",
+        "properties": {
+          "companyGUID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "buildingGUID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "monitoringPointGUID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sensorGUID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "data": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "dataDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

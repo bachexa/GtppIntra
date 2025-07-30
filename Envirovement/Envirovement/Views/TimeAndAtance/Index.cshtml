@@ -1,0 +1,298 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Department and Date Range</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/reportResult.css" asp-append-version="true" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Noto Sans Georgian', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .reportContainer {
+            width: 70%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        select, input[type="date"], input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="button"] {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+            input[type="button"]:hover {
+                background-color: #0056b3;
+            }
+
+        .select-reportContainer {
+            margin-top: 20px;
+        }
+
+        
+        /*select conteiner --------------------------*/
+        #department-select-container {
+            position: relative;
+            display: inline-block;
+            width: 700px; /* Make the dropdown container wider */
+        }
+
+        #checkbox-container {
+            border: 1px solid #ddd;
+            background-color: #fff;
+            position: absolute;
+            z-index: 1;
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%; /* Set the dropdown container to take the full width */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+            #checkbox-container label {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 16px; /* Increase font size for better readability */
+            }
+
+        #select-btn {
+            width: 100%; /* Make the button take the full width */
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            text-align: left;
+            font-size: 16px; /* Increase font size */
+        }
+
+        #checkbox-container input[type="checkbox"] {
+            margin-right: 10px; /* Add space between checkboxes and labels */
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <main class="resultContainer hidden" id="exportable-table">
+
+        @* <button style="" id="exportToExcelBtn" class="btn btn-primary">Export to Excel</button> *@
+    </main>
+    
+    
+
+    <div class="reportContainer" id="reporMainPage">
+        <h1>სამუშაო დროის აღრიცხვა</h1>
+
+        <div class="form-group">
+            <label for="department-select">განყოფილება</label>
+            <div id="department-select-container">
+                <button id="select-btn">აირჩიე დეპარტამენტი\სამსახური </button>
+                <div id="checkbox-container" style="display: none;">
+                    <input type="text" id="department-search" placeholder="მოძებნე დეპარტამენტი" style="width: 100%; padding: 5px; margin-bottom: 10px;">
+                    <label><input type="checkbox" id="checkAll"> Check All</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="50|ხელმძღვანელობა"> ხელმძღვანელობა</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="24|ადმინისტრაცია"> ადმინისტრაცია</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="51|შიდა აუდიტის დეპარტამენტი">შიდა აუდიტის დეპარტამენტი</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="29|შესყიდვების დეპარტამენტი"> შესყიდვების დეპარტამენტი</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="34|ლოგისჯიკის დეპარტამენტი"> ლოჯისტიკის დეპარტამენტი</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="62|IT სამსახური"> IT სამსახური</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="36|საწყობის და ქონების მართვის სამსახური"> საწყობის და ქონების მართვის სამსახური</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="39|სამეურნეო სამსახური">სამეურნეო სამსახური</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="27|საფინანსო დეპარტამენტი"> საფინანსო დეპარტამენტი</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="28|კომერციული დეპარტამენტი">კომერციული დეპარტამენტი</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="54|კონტროლის დეპარტამენტი">კონტროლის დეპარტამენტი</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="19|დაცვის სამსახური">დაცვის სამსახური</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="25|იურიდიული დეპარტამენტი">იურიდიული დეპარტამენტი</label><br>
+                    <label><input type="checkbox" class="department-checkbox" value="32|შესაბამისობის, გარემოს დაცვის და შრომის უსაფრთხოების დეპარტამენტი">შესაბამისობის, გარემოს დაცვის და შრომის უსაფრთხოების დეპარტამენტი</label><br>
+                    
+                    <!-- Add more checkboxes as needed -->
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="department">განყოფილება</label>
+            <select id="department">
+                <option value="50|ხელმძღვანელობა|გენერალური დირექტორი">ხელმძღვანელობა</option>
+                <option value="24|ადმინისტრაცია|ადმინისტრაციის უფროსი უფროსი">ადმინისტრაცია</option>
+                <option value="51|შიდა აუდიტის დეპარტამენტი|შიდა აუდიტის დეპარტამენტის უფროსი">შიდა აუდიტის დეპარტამენტი</option>
+                <option value="29|შესყიდვების დეპარტამენტი|შესყიდვების დეპარტამენტი უფროსი">შესყიდვების დეპარტამენტი</option>
+                <option value="34|ლოგისჯიკის დეპარტამენტი|ლოჯისტიკის დეპარტამენტის უფროსი">ლოჯისტიკის დეპარტამენტი</option>
+                <option value="62|IT სამსახური|IT სამსახურის უფროსი">IT სამსახური</option>
+                <option value="36|საწყობის და ქონების მართვის სამსახური|საწყობის და ქონების მართვის სამსახურის უფროსი">საწყობის და ქონების მართვის სამსახური</option>
+                <option value="39|სამეურნეო სამსახური|სამეურნეო სამსახურის უფროსი">სამეურნეო სამსახური</option>
+                <option value="27|საფინანსო დეპარტამენტი|საფინანსო დეპარტამენტის უფროსი">საფინანსო დეპარტამენტი</option>
+                <option value="28|კომერციული დეპარტამენტი|კომერციული დეპარტამენტის უფროსი">კომერციული დეპარტამენტი</option>
+                <option value="54|კონტროლის დეპარტამენტი|კონტროლის დეპარტამენტის უფროსი">კონტროლის დეპარტამენტი</option>
+                <option value="19|დაცვის სამსახური|დაცვის სამსახურის უფროსი">დაცვის სამსახური</option>
+                <option value="25|იურიდიული დეპარტამენტი|იურიდიული დეპარტამენტის უფროსი">იურიდიული დეპარტამენტი</option>
+                <option value="32|შესაბამისობის, გარემოს დაცვის და შრომის უსაფრთხოების დეპარტამენტი|შესაბამისობის, გარემოს დაცვის და შრომის უსაფრთხოების დეპარტამენტის უფროსი">შესაბამისობის, გარემოს დაცვის და შრომის უსაფრთხოების დეპარტამენტი</option>
+                <option value="56|ოპერაციული და სარემონტო სამსახური|ოპერაციული მენეჯერი">ოპერაციული და სარემონტო სამსახური</option>
+                <option value="42|ოპერაციული საამქრო|ოპერაციული საამქროს უფროსი">ოპერაციული საამქრო</option>
+                <option value="44|წყლის გამწმენდი და ქიმიური საამქრო|წყლის გამწმენდი და ქიმიური საამქროს უფროსი">წყლის გამწმენდი და ქიმიური საამქრო</option>
+                <option value="45|ელექტრო საამქრო|ელექტრო საამქროს უფროსი">ელექტრო საამქრო</option>
+                <option value="46|მექანიკური საამქრო|მექანიკური საამქროს უფროსი">მექანიკური საამქრო</option>
+                <option value="47|ინსტრუმენტაციის და კონტროლის საამქრო|ინსტრუმენტაციის და კონტროლის საამქროს უფროსი">ინსტრუმენტაციის და კონტროლის საამქრო</option>
+                <!-- Add more departments as necessary -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="from-date">პერიოდი -დან</label>
+            <input type="date" id="from-date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="to-date">პერიოდი -მდე</label>
+            <input type="date" id="to-date" required>
+        </div>
+
+       @*  <button onclick="GetTAReport()">არჩევა</button> *@
+
+        <input type="button" class="save" value="რეპორტი" onclick="GetTAReport()" />
+
+        <input type="button" class="save" value="რეპორტი ადმინისტრაციისათვის" onclick="GetTAReportForHR()" />
+
+        <input type="button" class="save" value="მარტო მოსვლა წასვლა" onclick="GetInOutReport()" />
+
+        <p id="TAReports" style="display: none;">@Url.Action("GetTAReport", "TAReports")</p>
+    </div>
+
+    <script src="@Url.Content("~/js/TAReports.js")"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function handleSubmit() {
+            const department = document.getElementById('department').value;
+            const fromDate = document.getElementById('from-date').value;
+            const toDate = document.getElementById('to-date').value;
+            if (!fromDate || !toDate) {
+                alert("გთხოვთ აირჩიოთ პერიოდის ორივე თარიღი.");
+                return;
+            }
+            if (new Date(fromDate) > new Date(toDate)) {
+                alert("დაწყების თარიღი უნდა იყოს დასრულების თარიღამდე.");
+                return;
+            }
+            alert(`განყოფილება: ${department}, პერიოდი: ${fromDate} - ${toDate}`);
+        }
+
+        $(document).ready(function () {
+            // Function to update the button text based on selected checkboxes
+            function updateButtonText() {
+                var selectedDepartments = [];
+
+                // Loop through each checked checkbox and push the label text
+                $('.department-checkbox:checked').each(function () {
+                    selectedDepartments.push($(this).parent().text().trim());
+                });
+
+                if (selectedDepartments.length > 0) {
+                    $('#select-btn').text(selectedDepartments.join(', '));
+                } else {
+                    $('#select-btn').text('Select Departments');
+                }
+            }
+
+            // Toggle the dropdown visibility on button click
+            $('#select-btn').on('click', function (e) {
+                e.stopPropagation();
+                $('#checkbox-container').toggle();
+            });
+
+            // "Check All" functionality
+            $('#checkAll').on('change', function () {
+                var isChecked = $(this).is(':checked');
+                $('.department-checkbox').prop('checked', isChecked);
+                updateButtonText(); // Update button text when "Check All" is clicked
+            });
+
+            // Update "Check All" if individual checkboxes are unchecked
+            $('.department-checkbox').on('change', function () {
+                if (!$('.department-checkbox').is(':checked')) {
+                    $('#checkAll').prop('checked', false);
+                }
+
+                // If all checkboxes are selected, "Check All" should be checked
+                if ($('.department-checkbox:checked').length === $('.department-checkbox').length) {
+                    $('#checkAll').prop('checked', true);
+                }
+
+                updateButtonText(); // Update button text when individual checkboxes are clicked
+            });
+
+            // Close dropdown if clicked outside
+            $(document).on('click', function () {
+                $('#checkbox-container').hide();
+            });
+
+            // Close dropdown on container click to prevent it from hiding when clicking inside the dropdown
+            $('#checkbox-container').on('click', function (e) {
+                e.stopPropagation();
+            });
+
+            // Search functionality for filtering departments
+            $('#department-search').on('keyup', function () {
+                var searchValue = $(this).val().toLowerCase();
+
+                // Loop through each checkbox label and toggle visibility based on the search
+                $('#checkbox-container label').each(function () {
+                    var departmentText = $(this).text().toLowerCase();
+                    if (departmentText.includes(searchValue)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+
+
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+﻿#exportable-table {
+            position:absolute;
+            width: 1850px;
+
+            left: 30px !important;
+            padding: 20px !important;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+
+        }
+        h4{
+            font-weight:bold;
+            font-size:15px;
+           
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+           
+        }
+
+        thead th {
+            background-color: #f2f2f2;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        tbody td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+           
+        }
+
+        .green {
+            background-color: #90ee90; /* Light green */
+        }
+
+        .yellow {
+            background-color: #ffff00; /* Yellow */
+        }
+
+        .red {
+            background-color: #ff6961; /* Red */
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .date-section {
+            margin: 20px auto;
+            width: 100%;
+        }
+
+            .date-section table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+                font-family: 'Noto Sans Georgian', sans-serif;
+            }
+
+            .date-section td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                font-size: 14px;
+                text-align:center;
+            }
+
+        .left {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        main.resultContainer.center {
+            font-size: 14px;
+        }
+
+        .date {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .legend-section {
+            margin: 20px auto;
+            width: 100%;
+        }
+
+            .legend-section table {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: 'Noto Sans Georgian', sans-serif;
+            }
+
+            .legend-section td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                font-size: 14px;
+            }
+
+        .color-box {
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .green {
+            background-color: #90ee90;
+        }
+
+        .red {
+            background-color: #ff6961;
+        }
+
+        .yellow {
+            background-color: #ffff00;
+        }
+
+        .blue {
+            background-color: #007bff;
+        }
+
+        .gray {
+            background-color: #808080;
+        }
+
+        .orange {
+            background-color: #ff6347;
+        }
+
+        .yellow-dark {
+            background-color: #ffd700;
+        }
+
+        .left-align {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        center-text {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        signature-section {
+            text-align: center;
+            font-size: 16px;
+            padding: 20px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }

@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Base reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body with background image */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('/img/6.jpg'); /* Replace with your image URL */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Avoids repeating the image */
+            height: 100vh; /* Full height of the viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main container with margin auto for center alignment */
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: auto; /* Margin auto for horizontal and vertical centering */
+            text-align: center;
+        }
+
+        /* Form fields */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background-color: #f7f9fb;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px 15px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Title styling */
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Subtle text */
+        .login-subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        
+
+        
+
+        
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 class="login-title">კეთილი იყოს თქვენი მობრძანება!!</h2>
+        <p class="login-subtitle">გთხოვთ შეხვიდეთ თქვენს ანგარიშში</p>
+
+        <form id="loginForm">
+            <input type="text" id="username" name="username" placeholder="მომხმარებელი" required>
+            <input type="password" id="password" name="password" placeholder="პაროლი" required>
+            <button type="submit">შესვლა</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
+            // Get the form data
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Send the login request to the server
+            fetch('/Autentication/Login', {
+                method: 'POST',
+                body: JSON.stringify({ username: username, password: password }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Login failed');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Save the token in local storage
+                    localStorage.setItem("authToken", data.token);
+
+                    // Fetch protected data for the home page after successful login
+                    fetchProtectedData();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Login failed! Please check your credentials and try again.');
+                });
+        });
+
+        // Function to fetch protected data from /Home/Index using the JWT token
+        function fetchProtectedData() {
+            const token = localStorage.getItem("authToken");
+
+            fetch('/Home/Index', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Send the JWT token in the Authorization header
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Authorization failed');  // If token is invalid or expired
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Protected data:', data);
+                    // Here you can render the data on the page or perform some action
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Unauthorized access. Please log in.');
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto; /* Centers the form horizontally */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+        }
+
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #218838;
+            }
+
+
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            font-size: 14px;
+        }
+
+        button {
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header (untouched) -->
+    <header>
+        <h2>Registration Form</h2>
+    </header>
+
+    <!-- Main Container for the form -->
+    <div class="container">
+        <form asp-controller="Autentication" asp-action="Register" method="post">
+            <label for="UserName">User Name:</label>
+            <input type="text" id="UserName" name="UserName" required />
+
+            <label for="Email">Email:</label>
+            <input type="email" id="Email" name="Email" required />
+
+            <label for="Password">Password:</label>
+            <input type="password" id="Password" name="Password" required />
+
+            <label for="Role">Role:</label>
+            <input type="text" id="Role" name="Role" required />
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <!-- Footer (untouched) -->
+    <footer>
+        <!-- Add your footer content here -->
+    </footer>
+</body>
+</html>
